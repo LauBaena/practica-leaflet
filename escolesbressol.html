@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escoles bressol a L'Hospitalet de Llobregat</title>
+
+    <!-- Leaflet -->
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+        integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+        crossorigin=""/>
+ 
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+        crossorigin="">
+    </script>
+   
+    <!-- CSS de l'exercici -->
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
+	<link rel="stylesheet" type="text/css" href="css/escolesbressol.css">
+
+	<!-- JS de l'exercici -->
+	<script src="js/escolesbressol.js"></script>
+
+</head>
+<body>
+
+    <nav class="nav">
+        <img class="logo" src="images/logo.jpg" title="logo escoles bressol" alt="Logo escoles bressol">
+        <h1>Escoles bressol L'Hospitalet</h1>
+    </nav>
+
+    <header id="capçalera">
+        <hgroup>
+            <div>
+                <form action id="formulariSeleccio">
+                    <select name="seleccioBarri" id="seleccioBarri" class="seleccioBarri" title="Barri">
+                        <option value="tots">Tots els barris</option>
+                        <option value="centre">Centre</option>
+                        <option value="santjosep">Sant Josep</option>
+                        <option value="bellvitge">Bellvitge</option>
+                        <option value="sanfeliu">Sanfeliu</option>
+                        <option value="canserra">Can Serra</option>
+                        <option value="pubillacases">Pubilla Casas</option>
+                        <option value="laflorida">La Florida</option>
+                        <option value="lesplanes">Les Planes</option>
+                        <option value="collblanc">Collblanc</option>
+                        <option value="latorrassa">La Torrassa</option>
+                        <option value="santaeulalia">Santa Eulàlia</option>
+                        <option value="gornal">Gornal</option>
+                        <option value="granviasud">Granvia Sud</option>
+                    </select>
+                </form>
+            </div>
+        </hgroup>
+    </header>
+    
+    <main id="seccioMain">
+        <h1 class="titolSeleccio" id="titolSeleccio">Escoles bressol a tot L'Hospitalet</h1>
+        <div id="mapaid"></div>           
+    </main>
+
+    <footer class="footer">
+        <a class="link" href="https://www.l-h.cat/" target="_blank">
+            <img class="icon" src="images/logoLH.png" title="ajuntament" alt="Ajuntament L'H png">
+        </a>
+    </footer>
+
+</body>
+</html>
