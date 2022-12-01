@@ -21,17 +21,9 @@ main{
         "logo h1 ."
 }
 
-#capçalera {
-    background:white;
-    padding: 15px 0px; 
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
 .nav .logo{
-    height: 170px;
-    width: 170px;
+    height: 100px;
+    width: 100px;
     padding: 0px 10px; 
     /*Cercle imatge*/
     background-repeat: no-repeat;
@@ -39,19 +31,28 @@ main{
     border-radius: 50%;
     background-size: 100% auto;
     grid-area: logo;
+    align-self: center;
 }
 
 .nav h1{
-    text-align: center;
+    text-align: right;
     grid-area: h1;
     align-self: center;
     color: #ffffff; 
     font-family: 'Raleway',sans-serif; 
-    font-size: 60px; 
+    font-size: 30px; 
     font-weight: 800; 
     line-height: 72px; 
     margin: 0 0 24px; 
     text-transform: uppercase;
+}
+
+#capçalera {
+    background:white;
+    padding: 15px 0px; 
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .titolSeleccio{
@@ -151,4 +152,40 @@ select.seleccioBarri:focus {
     font-family: 'Poppins', sans-serif;
     font-size: 1rem;
     margin: 10px 5px;
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media screen and (min-width: 768px) {
+    .nav {
+        padding: 15px 0; 
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-areas: 
+            "logo h1 ."
+    }
+    
+    .nav .logo{
+        height: 170px;
+        width: 170px;
+        padding: 0px 10px; 
+        /*Cercle imatge*/
+        background-repeat: no-repeat;
+        background-position: 50%;
+        border-radius: 50%;
+        background-size: 100% auto;
+        grid-area: logo;
+    }
+    
+    .nav h1{
+        text-align: center;
+        grid-area: h1;
+        align-self: center;
+        color: #ffffff; 
+        font-family: 'Raleway',sans-serif; 
+        font-size: 60px; 
+        font-weight: 800; 
+        line-height: 72px; 
+        margin: 0 0 24px; 
+        text-transform: uppercase;
+    }
 }
