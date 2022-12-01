@@ -3,19 +3,23 @@ let marcadors = [];
 let elMeuMapa;
 
 window.onload = function(){
-    //Inicialitzem i generem el nou mapa al div "mapaid"
+    //Afegim un listener a l'element select per quan l'usuari seleccioni alguna opció
+    let opcioSeleccionada = document.getElementById('seleccioBarri');
+    opcioSeleccionada.addEventListener('change', inicialitzarElements);
+    //Inicialitzem el mapa i fem la crida AJAX per crear els marcadors i finestres d'informació 
+    inicialitzarMapa();
+    inicialitzarElements();
+};
+
+//Inicialitzem i generem el nou mapa al div "mapaid"
+function inicialitzarMapa(){
 	elMeuMapa = L.map('mapaid').setView([41.3642, 2.1135], 14);
 	let OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		maxZoom: 19,
 		attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 	});
 	OpenStreetMap_Mapnik.addTo(elMeuMapa);
-    //Afegim un listener a l'element select per quan l'usuari seleccioni alguna opció
-    let opcioSeleccionada = document.getElementById('seleccioBarri');
-    opcioSeleccionada.addEventListener('change', inicialitzarElements);
-    //Cridem a la funció que farà la crida AJAX i crearà els marcadors i finestres d'informació 
-    inicialitzarElements();
-};
+}
 
 function inicialitzarElements(){
     //Accedim a la opció seleccionada per l'usuari (tant text com valor)
@@ -84,21 +88,14 @@ function eliminarMarcadors() {
     //Eliminem el div anterior
     let divMapa = document.getElementById("mapaid");
     divMapa.remove();
-    //Creem un div nou amb el seu atribut id
+    //Creem un div nou i el seu atribut
     let nouDivMapa = document.createElement('div');
     nouDivMapa.setAttribute('id', 'mapaid');
     //L'afegim al main
     let main = document.getElementById("seccioMain");
     main.appendChild(nouDivMapa);
-    //Creem el mapa al div
-    elMeuMapa = L.map('mapaid').setView([41.3642, 2.1135], 14);
-    let OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-		maxZoom: 19,
-		attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-	});
-	OpenStreetMap_Mapnik.addTo(elMeuMapa);
+    //Inicialitzem i generem el nou mapa al div "mapaid"
+    inicialitzarMapa();
     //Reiniciem l'array marcadors
     marcadors = [];
 }
-
-      
