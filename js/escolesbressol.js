@@ -3,26 +3,26 @@ let marcadors = [];
 let elMeuMapa;
 
 window.onload = function(){
+    //Inicialitzem i generem el nou mapa al div "mapaid"
 	elMeuMapa = L.map('mapaid').setView([41.3642, 2.1135], 14);
-	
 	let OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		maxZoom: 19,
 		attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 	});
-	
 	OpenStreetMap_Mapnik.addTo(elMeuMapa);
-
+    //Afegim un listener a l'element select per quan l'usuari seleccioni alguna opció
     let opcioSeleccionada = document.getElementById('seleccioBarri');
-    opcioSeleccionada.addEventListener('change', inicialitzarMapa);
-
-    inicialitzarMapa();
+    opcioSeleccionada.addEventListener('change', inicialitzarElements);
+    //Cridem a la funció que farà la crida AJAX i crearà els marcadors i finestres d'informació 
+    inicialitzarElements();
 };
 
-function inicialitzarMapa(){
-    //Accedim a la opció seleccionada per l'usuari
+function inicialitzarElements(){
+    //Accedim a la opció seleccionada per l'usuari (tant text com valor)
     let opcioSeleccionada = document.getElementById('seleccioBarri');
-    let opcioSelValue = document.getElementById('seleccioBarri').value;
     let opcioSelText = opcioSeleccionada.options[opcioSeleccionada.selectedIndex].text;
+    let opcioSelValue = document.getElementById('seleccioBarri').value;
+    //Accedim al titol que mostra la selecció per modificar-la segons el que tria l'usuari
     let titolSeleccio = document.getElementById('titolSeleccio');
 
     //Fem la crida AJAX a l'URL corresponent per rebre el llistat d'escoles bressol
@@ -34,35 +34,37 @@ function inicialitzarMapa(){
     function processarResposta() {
         //Accedim a la resposta de la crida AJAX
         let resposta = JSON.parse(httpRequest.responseText);
-
+        //Si la opció que està seleccionada es "tots", creem marcadors de totes les escoles bressol de la resposta
         if(opcioSelValue === "tots"){
-            //Iterem per cadascuna de les categories rebudes a través de la resposta d'AJAX i comparem amb la opció seleccionada per l'usuari
             for (let i = 0; i < resposta.length; i++) {
-                    let latitud = parseFloat(resposta[i].coordenades.latitude);
-                    let longitud = parseFloat(resposta[i].coordenades.longitude);
-                    marcadors.push(crearMarcador(resposta[i], latitud, longitud));
+                    marcadors.push(crearMarcador(resposta[i]));
             } 
             titolSeleccio.innerText = "Escoles bressol a tot L'Hospitalet";
-
+        //Per qualsevol altra opció...
         } else { 
+            //Eliminem els marcadors que hi puguin haver prèviament
             eliminarMarcadors();
+            //Iterem per les escoles de la resposta d'AJAX i creem marcadors d'aquelles que coincideixen amb la opció seleccionada per l'usuari
             for (let i = 0; i < resposta.length; i++) {
                 if(resposta[i].barri == opcioSelText){
-                    let latitud = parseFloat(resposta[i].coordenades.latitude);
-                    let longitud = parseFloat(resposta[i].coordenades.longitude);
-                    marcadors.push(crearMarcador(resposta[i], latitud, longitud));
+                    marcadors.push(crearMarcador(resposta[i]));
                 }
             }
             titolSeleccio.innerText = `Escoles bressol al barri ${opcioSelText}`
+            //Si no hi ha cap escola al barri seleccionat, mostrem missatge
             if(marcadors.length == 0){
                 alert(`No hi ha cap escola bressol al barri ${opcioSelText}`);
             }
         }
+        //Afegim els marcadors al mapa
         afegirMarcadors();
     }
 }
 
-let crearMarcador = function(escola, latitud, longitud) {
+//Creem el marcador i la finestra d'informació de l'escola rebuda per paràmetre
+let crearMarcador = function(escola) {
+    let latitud = parseFloat(escola.coordenades.latitude);
+    let longitud = parseFloat(escola.coordenades.longitude);
     let marcador = L.marker([latitud, longitud],{title:escola.nom});
     marcador.bindPopup('<h3 class="titol">' + escola.nom + '</h3><p class="descripcio">Adreça: ' 
         + escola.adreca + '</p><p class="descripcio">Telèfon: ' 
@@ -71,14 +73,11 @@ let crearMarcador = function(escola, latitud, longitud) {
     return marcador;
 }
 
+//Afegim al mapa els marcadors creats
 let afegirMarcadors = function() {
     for (let i = 0; i < marcadors.length; i++) {
-        afegirMarcador(marcadors[i]);
-    }
-}
-
-let afegirMarcador = function(marcador) {
-    marcador.addTo(elMeuMapa);
+        marcadors[i].addTo(elMeuMapa);
+    };
 }
 
 function eliminarMarcadors() {
