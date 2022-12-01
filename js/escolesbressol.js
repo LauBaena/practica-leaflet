@@ -38,6 +38,10 @@ function inicialitzarElements(){
     function processarResposta() {
         //Accedim a la resposta de la crida AJAX
         let resposta = JSON.parse(httpRequest.responseText);
+        //Si l'array marcadors no està buit, és a dir, si ja s'han creat alguns prèviament, els eliminem
+        if(marcadors.length != 0){
+            eliminarMarcadors();
+        }
         //Si la opció que està seleccionada es "tots", creem marcadors de totes les escoles bressol de la resposta
         if(opcioSelValue === "tots"){
             for (let i = 0; i < resposta.length; i++) {
@@ -46,8 +50,6 @@ function inicialitzarElements(){
             titolSeleccio.innerText = "Escoles bressol a tot L'Hospitalet";
         //Per qualsevol altra opció...
         } else { 
-            //Eliminem els marcadors que hi puguin haver prèviament
-            eliminarMarcadors();
             //Iterem per les escoles de la resposta d'AJAX i creem marcadors d'aquelles que coincideixen amb la opció seleccionada per l'usuari
             for (let i = 0; i < resposta.length; i++) {
                 if(resposta[i].barri == opcioSelText){
